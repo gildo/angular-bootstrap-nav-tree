@@ -121,26 +121,26 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 }
 
 td.level-2{
-    padding-left:20px;
+    padding-left:20px !important;
 }
 td.level-3{
-    padding-left:40px;
+    padding-left:40px !important;
 }
 td.level-4{
-    padding-left:60px;
+    padding-left:60px !important;
 }
 td.level-5{
-    padding-left:80px;
+    padding-left:80px !important;
 }
 td.level-6{
-    padding-left:100px;
+    padding-left:100px !important;
 }
 td.level-7{
-    padding-left:120px;
+    padding-left:120px !important;
 }
 td.level-8{
-    padding-left:140px;
+    padding-left:140px !important;
 }
 td.level-9{
-    padding-left:160px;
+    padding-left:160px !important;
 }
