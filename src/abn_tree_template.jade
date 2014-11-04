@@ -1,7 +1,9 @@
 
 table.nav.nav-list.nav-pills.nav-stacked.abn-tree.table
-  th
-    td(
+  tr(
+    ng-if="headers.length!=0"
+    )
+    th(
         ng-repeat='header in headers'
       )
       {{header}}
