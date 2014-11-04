@@ -7,6 +7,9 @@ module.directive 'abnTree',['$timeout',($timeout)->
 
   template: """
 <table class="nav nav-list nav-pills nav-stacked abn-tree table">
+  <th>
+    <td ng-repeat="header in headers">{{header}}</td>
+  </th>
   <tr ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'') + ' ' +row.classes.join(' ')" class="abn-tree-row">
     <td ng-class="'level-' + {{ row.level }}"><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i><span class="indented tree-label">{{ row.label }}</span></a></td>
     <td ng-repeat="att in additionnalAttr" ng-if="row.branch.data[att]"><span class="indented tree-label">{{ row.branch.data[att] }}</span></td>
@@ -34,6 +37,10 @@ module.directive 'abnTree',['$timeout',($timeout)->
     attrs.iconLeaf     ?= 'icon-file  glyphicon glyphicon-file  fa fa-file'
 
     attrs.expandLevel  ?= '3'
+    scope.headers=[]
+    if attrs.headers
+      scope.headers =attrs.headers.split(",")
+
     scope.additionnalAttr=[]
     if attrs.additionnalAttr
       scope.additionnalAttr =attrs.additionnalAttr.split(",")

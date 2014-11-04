@@ -28,6 +28,10 @@ module.directive 'abnTree',['$timeout',($timeout)->
     attrs.iconLeaf     ?= 'icon-file  glyphicon glyphicon-file  fa fa-file'
 
     attrs.expandLevel  ?= '3'
+    scope.headers=[]
+    if attrs.headers
+      scope.headers =attrs.headers.split(",")
+
     scope.additionnalAttr=[]
     if attrs.additionnalAttr
       scope.additionnalAttr =attrs.additionnalAttr.split(",")
