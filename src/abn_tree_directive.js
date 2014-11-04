@@ -461,6 +461,13 @@ module.directive('abnTree', [
                 }
               }
             };
+              tree.expandAncestorByName = function(search) {
+                  for_each_branch(function(b, level) {
+                      if(b.label.indexOf(search)!=-1){
+                          expand_all_parents(b);
+                      }
+                  });
+              };
             return tree.select_prev_branch = function(b) {
               var prev;
               if (b == null) {

@@ -119,3 +119,28 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
   position: relative;
   left: 160px;
 }
+
+td.level-2{
+    padding-left:20px;
+}
+td.level-3{
+    padding-left:40px;
+}
+td.level-4{
+    padding-left:60px;
+}
+td.level-5{
+    padding-left:80px;
+}
+td.level-6{
+    padding-left:100px;
+}
+td.level-7{
+    padding-left:120px;
+}
+td.level-8{
+    padding-left:140px;
+}
+td.level-9{
+    padding-left:160px;
+}

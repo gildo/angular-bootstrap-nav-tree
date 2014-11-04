@@ -1,4 +1,3 @@
-
 module = angular.module 'angularBootstrapNavTree',[]
 
 module.directive 'abnTree',['$timeout',($timeout)-> 
@@ -7,14 +6,12 @@ module.directive 'abnTree',['$timeout',($timeout)->
   #templateUrl: '../dist/abn_tree_template.html' # <--- another way to do this
 
   template: """
-<ul class="nav nav-list nav-pills nav-stacked abn-tree">
-  <li ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row">
-    <a ng-click="user_clicks_branch(row.branch)">
-      <i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"> </i>
-      <span class="indented tree-label">{{ row.label }} </span>
-    </a>
-  </li>
-</ul>""" # will be replaced by Grunt, during build, with the actual Template HTML
+<table class="nav nav-list nav-pills nav-stacked abn-tree table">
+  <tr ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'') + ' ' +row.classes.join(' ')" class="abn-tree-row">
+    <td ng-class="'level-' + {{ row.level }}"><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i><span class="indented tree-label">{{ row.label }}</span></a></td>
+    <td ng-repeat="att in additionnalAttr" ng-if="row.branch.data[att]"><span class="indented tree-label">{{ row.branch.data[att] }}</span></td>
+  </tr>
+</table>""" # will be replaced by Grunt, during build, with the actual Template HTML
   replace:true
   scope:
     treeData:'='
@@ -37,6 +34,9 @@ module.directive 'abnTree',['$timeout',($timeout)->
     attrs.iconLeaf     ?= 'icon-file  glyphicon glyphicon-file  fa fa-file'
 
     attrs.expandLevel  ?= '3'
+    scope.additionnalAttr=[]
+    if attrs.additionnalAttr
+      scope.additionnalAttr =attrs.additionnalAttr.split(",")
 
     expand_level = parseInt attrs.expandLevel,10
 
@@ -152,23 +152,7 @@ module.directive 'abnTree',['$timeout',($timeout)->
     on_treeData_change = ->
 
       #console.log 'tree-data-change!'
-
-      # give each Branch a UID ( to keep AngularJS happy )
-      for_each_branch (b,level)->
-        if not b.uid
-          b.uid = ""+Math.random()
-      console.log 'UIDs are set.'
-
-
-      # set all parents:
-      for_each_branch (b)->
-        if angular.isArray b.children
-          for child in b.children
-            child.parent_uid = b.uid
-
-
-      scope.tree_rows = []
-
+      
       #
       # if "children" is just a list of strings...
       # ...change them into objects:
@@ -188,6 +172,23 @@ module.directive 'abnTree',['$timeout',($timeout)->
         else
           branch.children = []
 
+
+      # give each Branch a UID ( to keep AngularJS happy )
+      for_each_branch (b,level)->
+        if not b.uid
+          b.uid = ""+Math.random()
+      console.log 'UIDs are set.'
+
+
+      # set all parents:
+      for_each_branch (b)->
+        if angular.isArray b.children
+          for child in b.children
+            child.parent_uid = b.uid
+
+
+      scope.tree_rows = []
+
       
       #
       # add_branch_to_list: recursively add one branch
@@ -198,13 +199,17 @@ module.directive 'abnTree',['$timeout',($timeout)->
         if not branch.expanded?
           branch.expanded = false
 
+        if not branch.classes?
+          branch.classes = []
+
         #
         # icons can be Bootstrap or Font-Awesome icons:
         # they will be rendered like:
         # <i class="icon-plus"></i>
         #
-        if not branch.children or branch.children.length == 0 
+        if not branch.noLeaf and (not branch.children or branch.children.length == 0)
           tree_icon = attrs.iconLeaf
+          branch.classes.push "leaf" if "leaf" not in branch.classes
         else
           if branch.expanded
             tree_icon = attrs.iconCollapse
@@ -219,6 +224,7 @@ module.directive 'abnTree',['$timeout',($timeout)->
           level     : level
           branch    : branch
           label     : branch.label
+          classes   : branch.classes
           tree_icon : tree_icon
           visible   : visible
 
@@ -469,6 +475,12 @@ module.directive 'abnTree',['$timeout',($timeout)->
             if prev?
               tree.select_branch(prev)
               return prev
+
+        tree.expandAncestorByName = (search)->
+          for_each_branch (b, level) ->
+            if b.label.indexOf(search)!=-1
+              expand_all_parents(b)
+
 ]
 
 

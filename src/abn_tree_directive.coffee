@@ -28,6 +28,9 @@ module.directive 'abnTree',['$timeout',($timeout)->
     attrs.iconLeaf     ?= 'icon-file  glyphicon glyphicon-file  fa fa-file'
 
     attrs.expandLevel  ?= '3'
+    scope.additionnalAttr=[]
+    if attrs.additionnalAttr
+      scope.additionnalAttr =attrs.additionnalAttr.split(",")
 
     expand_level = parseInt attrs.expandLevel,10
 
@@ -466,6 +469,12 @@ module.directive 'abnTree',['$timeout',($timeout)->
             if prev?
               tree.select_branch(prev)
               return prev
+
+        tree.expandAncestorByName = (search)->
+          for_each_branch (b, level) ->
+            if b.label.indexOf(search)!=-1
+              expand_all_parents(b)
+
 ]
 
 
