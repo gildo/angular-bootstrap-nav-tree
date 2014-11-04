@@ -41,7 +41,8 @@ But there are other attributes to customize the tree:
         icon-collapse     = "icon-minus-sign"
         on-select         = "my_tree_handler(branch)"
         expand-level      = "2"
-        initial-selection = "Vegetable">      
+        initial-selection = "Vegetable"
+        additionnal-attr  = "test">
     ></abn-tree>
 
 The example uses Font-Awesome 3, but Font-Awsome 4 also works.
@@ -98,3 +99,14 @@ Warning: If you attach extra attributes directly to a branch (instead of to "bra
 
 Tree-Control API:
 If you pass an empty object to the tree as "tree-control", it will be populated with a set of functions for navigating and controlling the tree.  See the example page for a demo...
+
+
+Added with this fork:
+change ul/li to table
+additionnal-attr is a list for the other td in a tr (obtain in attribute "data" of the leaf"):
+<tr>
+    <td>{{label}}</td>
+    <td>{{data.additionnal-attr[0]}}</td>
+    <td>{{data.additionnal-attr[1]}}</td>
+    ...
+</tr>
