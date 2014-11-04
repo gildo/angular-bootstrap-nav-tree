@@ -3,8 +3,8 @@
   <tr ng-if="headers.length!=0">
     <th ng-repeat="header in headers">{{header}}</th>
   </tr>
-  <tr ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'') + ' ' +row.classes.join(' ')" class="abn-tree-row">
-    <td ng-class="'level-' + {{ row.level }}"><a ng-click="user_clicks_branch(row.branch)"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i><span class="indented tree-label">{{ row.label }}</span></a></td>
+  <tr ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'') + ' ' +row.classes.join(' ')" ng-click="user_clicks_branch(row.branch)" class="abn-tree-row">
+    <td ng-class="'level-' + {{ row.level }}"><i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i><span class="indented tree-label">{{ row.label }}</span></td>
     <td ng-repeat="att in additionnalAttr" ng-if="row.branch.data[att]"><span class="indented tree-label">{{ row.branch.data[att] }}</span></td>
   </tr>
 </table>
