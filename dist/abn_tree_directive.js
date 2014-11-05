@@ -492,7 +492,7 @@
               };
               return tree.expandAncestorByName = function(search) {
                 return for_each_branch(function(b, level) {
-                  if (b.label.indexOf(search) !== -1) {
+                  if (b.label.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
                     return expand_all_parents(b);
                   }
                 });
