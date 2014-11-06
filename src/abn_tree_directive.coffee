@@ -476,7 +476,7 @@ module.directive 'abnTree',['$timeout',($timeout)->
 
         tree.expandAncestorByName = (search)->
           for_each_branch (b, level) ->
-            if b.label.toLowerCase().indexOf(search.toLowerCase())!=-1
+            if search!=undefined&&b.label.toLowerCase().indexOf(search.toLowerCase())!=-1
               expand_all_parents(b)
 
 ]
